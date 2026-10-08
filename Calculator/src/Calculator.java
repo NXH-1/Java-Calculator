@@ -1,5 +1,4 @@
 import java.awt.*;
-import java.awt.event.*;
 import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -61,16 +60,16 @@ public class Calculator {
 
         for (String value : buttonValues) {
             JButton button = new JButton();
-            String buttonValue = value;
+            String buttonText = value;
             button.setFont(new Font("JetBrains Mono", Font.PLAIN, 30));
-            button.setText(buttonValue);
+            button.setText(buttonText);
             button.setFocusable(false);
             button.setBorder(new LineBorder(customDarkBlue));
 
-            if (Arrays.asList(topSymbols).contains(buttonValue)) {
+            if (Arrays.asList(topSymbols).contains(buttonText)) {
                 button.setBackground(customLightGray);
                 button.setForeground(customDarkBlue);
-            }  else if (Arrays.asList(rightSymbols).contains(buttonValue)) {
+            }  else if (Arrays.asList(rightSymbols).contains(buttonText)) {
                 button.setBackground(customBlue);
                 button.setForeground(Color.WHITE);
             } else {
@@ -80,11 +79,10 @@ public class Calculator {
             
             buttonsPanel.add(button);
 
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    JButton button = (JButton) e.getSource();
-                    String buttonValue = button.getText();
+            button.addActionListener(e -> {
+
+                    JButton sourceButton = (JButton) e.getSource();
+                    String buttonValue = sourceButton.getText();
                     if (Arrays.asList(rightSymbols).contains(buttonValue)) {
                         if ("=".equals(buttonValue)) {
                             if (A != null) {
@@ -107,7 +105,7 @@ public class Calculator {
                                 clearAll();
                             }
                         } else if ("+-×÷".contains(buttonValue)) {
-                            if (operator == null) {
+                            if (operator == null && !"Error".equals(displayLabel.getText())) {
                                 A = displayLabel.getText();
                                 displayLabel.setText("0");
                                 B = "0";
@@ -149,7 +147,7 @@ public class Calculator {
 
                         }
                     }
-                }
+                
             });
             
         }
