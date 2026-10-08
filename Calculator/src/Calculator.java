@@ -59,9 +59,9 @@ public class Calculator {
         buttonsPanel.setBackground(customDarkBlue);
         frame.add(buttonsPanel);
 
-        for (int i = 0; i < buttonValues.length; i++) {
+        for (String value : buttonValues) {
             JButton button = new JButton();
-            String buttonValue = buttonValues[i];
+            String buttonValue = value;
             button.setFont(new Font("JetBrains Mono", Font.PLAIN, 30));
             button.setText(buttonValue);
             button.setFocusable(false);
@@ -81,11 +81,12 @@ public class Calculator {
             buttonsPanel.add(button);
 
             button.addActionListener(new ActionListener() {
+                @Override
                 public void actionPerformed(ActionEvent e) {
                     JButton button = (JButton) e.getSource();
                     String buttonValue = button.getText();
                     if (Arrays.asList(rightSymbols).contains(buttonValue)) {
-                        if (buttonValue == "=") {
+                        if ("=".equals(buttonValue)) {
                             if (A != null) {
                                 B = displayLabel.getText();
                                 double numA = Double.parseDouble(A);
@@ -114,17 +115,21 @@ public class Calculator {
                             operator = buttonValue;
                         }
                     } else if (Arrays.asList(topSymbols).contains(buttonValue)) {
-                        if ("AC".equals(buttonValue)) {
-                            clearAll();
-                            displayLabel.setText("0");
-                        } else if ("+/-".equals(buttonValue)) {
-                            double numDisplay = Double.parseDouble(displayLabel.getText());
-                            numDisplay *= -1; 
-                            displayLabel.setText(isZeroDecimal(numDisplay));
-                        } else if ("%".equals(buttonValue)) {
-                            double numDisplay = Double.parseDouble(displayLabel.getText());
-                            numDisplay /= 100; 
-                            displayLabel.setText(isZeroDecimal(numDisplay));
+                        switch (buttonValue) {
+                            case "AC" -> {
+                                clearAll();
+                                displayLabel.setText("0");
+                            }
+                            case "+/-" -> {
+                                double numDisplay = Double.parseDouble(displayLabel.getText());
+                                numDisplay *= -1; 
+                                displayLabel.setText(isZeroDecimal(numDisplay));
+                            }
+                            case  "%" -> {
+                                double numDisplay1 = Double.parseDouble(displayLabel.getText());
+                                numDisplay1 /= 100; 
+                                displayLabel.setText(isZeroDecimal(numDisplay1));
+                            }
                         }
                     } else {
                         if (".".equals(buttonValue)) {
@@ -166,4 +171,4 @@ public class Calculator {
 }
 
 
-// TODO: make operators show up instead of 0
+// TODO: make operators show up when pressed instead of 0
