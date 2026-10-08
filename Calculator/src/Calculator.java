@@ -124,9 +124,9 @@ public class Calculator {
                                 displayLabel.setText(isZeroDecimal(numDisplay));
                             }
                             case  "%" -> {
-                                double numDisplay1 = Double.parseDouble(displayLabel.getText());
-                                numDisplay1 /= 100; 
-                                displayLabel.setText(isZeroDecimal(numDisplay1));
+                                double numDisplay = Double.parseDouble(displayLabel.getText());
+                                numDisplay /= 100; 
+                                displayLabel.setText(isZeroDecimal(numDisplay));
                             }
                         }
                     } else {
