@@ -114,29 +114,34 @@ public class Calculator {
                             operator = buttonValue;
                         }
                     } else if (Arrays.asList(topSymbols).contains(buttonValue)) {
-                        if (buttonValue == "AC") {
+                        if ("AC".equals(buttonValue)) {
                             clearAll();
                             displayLabel.setText("0");
-                        } else if (buttonValue == "+/-") {
+                        } else if ("+/-".equals(buttonValue)) {
                             double numDisplay = Double.parseDouble(displayLabel.getText());
                             numDisplay *= -1; 
                             displayLabel.setText(isZeroDecimal(numDisplay));
-                        } else if (buttonValue == "%") {
+                        } else if ("%".equals(buttonValue)) {
                             double numDisplay = Double.parseDouble(displayLabel.getText());
                             numDisplay /= 100; 
                             displayLabel.setText(isZeroDecimal(numDisplay));
                         }
                     } else {
-                        if (buttonValue == ".") {
+                        if (".".equals(buttonValue)) {
                             if (!displayLabel.getText().contains(buttonValue)) {
                                 displayLabel.setText(displayLabel.getText() + buttonValue);
                             }
                         } else if ("0123456789".contains(buttonValue)) {
-                            if (displayLabel.getText() == "0" || displayLabel.getText() == "Error") {
+                            if ("0".equals(displayLabel.getText()) || "Error".equals(displayLabel.getText())) {
                                 displayLabel.setText(buttonValue);
                             } else {
                                 displayLabel.setText(displayLabel.getText() + buttonValue);
                             }
+                        } else if ("√".equals(buttonValue)) {
+                            double numDisplay = Double.parseDouble(displayLabel.getText());
+                            numDisplay = Math.sqrt(numDisplay);
+                            displayLabel.setText(isZeroDecimal(numDisplay));
+
                         }
                     }
                 }
@@ -159,3 +164,6 @@ public class Calculator {
         }
     }
 }
+
+
+// TODO: make operators show up instead of 0
