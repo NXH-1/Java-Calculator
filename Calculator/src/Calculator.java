@@ -1,8 +1,10 @@
 import java.awt.*;
+import java.awt.datatransfer.StringSelection;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Arrays;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
-
 
 public class Calculator {
     int windowWidth = 360;
@@ -50,6 +52,35 @@ public class Calculator {
         displayLabel.setText("0");
         displayLabel.setOpaque(true);
 
+        displayLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+        displayLabel.addMouseListener(new MouseAdapter() {
+            private Timer flashTimer;
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                String textToCopy = displayLabel.getText();
+                
+                if (!"Error".equals(textToCopy) && !"+-×÷".contains(displayLabel.getText()))  {
+                    
+                    displayLabel.setToolTipText("Click to copy to clipboard");
+                    StringSelection selection = new StringSelection(textToCopy);
+                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, null);
+                    
+                    displayLabel.setForeground(Color.GREEN);
+
+                    if (flashTimer != null && flashTimer.isRunning()) {
+                        flashTimer.stop();
+                    }
+
+                    flashTimer = new Timer(300, evt -> displayLabel.setForeground(Color.WHITE));
+                    flashTimer.setRepeats(false);
+                    flashTimer.start();
+
+                }
+            }
+        });
+
         displayPanel.setLayout(new BorderLayout());
         displayPanel.add(displayLabel);
         frame.add(displayPanel,  BorderLayout.NORTH);
@@ -95,6 +126,7 @@ public class Calculator {
                                     case "÷" -> {
                                         if (numB == 0) {
                                             displayLabel.setText("Error");
+                                            clearAll();
                                         } else {
                                             displayLabel.setText(isZeroDecimal(numA / numB));
                                         }
