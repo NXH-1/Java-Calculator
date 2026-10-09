@@ -80,7 +80,6 @@ public class Calculator {
             buttonsPanel.add(button);
 
             button.addActionListener(e -> {
-
                     JButton sourceButton = (JButton) e.getSource();
                     String buttonValue = sourceButton.getText();
                     if (Arrays.asList(rightSymbols).contains(buttonValue)) {
@@ -107,7 +106,7 @@ public class Calculator {
                         } else if ("+-×÷".contains(buttonValue)) {
                             if (operator == null && !"Error".equals(displayLabel.getText())) {
                                 A = displayLabel.getText();
-                                displayLabel.setText("0");
+                                displayLabel.setText(buttonValue);
                                 B = "0";
                             }
                             operator = buttonValue;
@@ -131,11 +130,13 @@ public class Calculator {
                         }
                     } else {
                         if (".".equals(buttonValue)) {
-                            if (!displayLabel.getText().contains(buttonValue)) {
+                            if ("0+-×÷".contains(displayLabel.getText()) || "Error".equals(displayLabel.getText())) {
+                                displayLabel.setText("0.");
+                            } else if (!displayLabel.getText().contains(buttonValue)) {
                                 displayLabel.setText(displayLabel.getText() + buttonValue);
                             }
                         } else if ("0123456789".contains(buttonValue)) {
-                            if ("0".equals(displayLabel.getText()) || "Error".equals(displayLabel.getText())) {
+                            if ("0+-×÷".contains(displayLabel.getText()) || "Error".equals(displayLabel.getText())) {
                                 displayLabel.setText(buttonValue);
                             } else {
                                 displayLabel.setText(displayLabel.getText() + buttonValue);
