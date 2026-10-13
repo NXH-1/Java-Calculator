@@ -200,6 +200,3 @@ public class Calculator {
         }
     }
 }
-
-
-// TODO: make operators show up when pressed instead of 0
